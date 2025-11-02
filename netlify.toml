@@ -2,12 +2,12 @@
 # Main web app deployment with preview deployments
 
 [build]
-  # Base directory - root of monorepo
-  base = "."
-  # Build command - install dependencies and build web app
-  command = "pnpm install && pnpm build:web"
+  # Base directory - Next.js app directory in monorepo
+  base = "apps/web"
+  # Build command - install dependencies from root and build web app
+  command = "cd ../.. && pnpm install && pnpm build:web"
   # Publish directory (Next.js plugin will handle this automatically)
-  publish = "apps/web/.next"
+  publish = ".next"
 
 # Environment variables
 [build.environment]
@@ -19,31 +19,31 @@
 # Context-specific settings
 # Production deployment
 [context.production]
-  command = "pnpm install && pnpm build:web"
-  publish = "apps/web/.next"
+  base = "apps/web"
+  command = "cd ../.. && pnpm install && pnpm build:web"
+  publish = ".next"
   [context.production.environment]
     NODE_ENV = "production"
 
 # Preview deployments (for PRs and branches)
 # These will automatically create preview deployments for pull requests
 [context.branch-deploy]
-  command = "pnpm install && pnpm build:web"
-  publish = "apps/web/.next"
+  base = "apps/web"
+  command = "cd ../.. && pnpm install && pnpm build:web"
+  publish = ".next"
   [context.branch-deploy.environment]
     NODE_ENV = "production"
 
 [context.deploy-preview]
-  command = "pnpm install && pnpm build:web"
-  publish = "apps/web/.next"
+  base = "apps/web"
+  command = "cd ../.. && pnpm install && pnpm build:web"
+  publish = ".next"
   [context.deploy-preview.environment]
     NODE_ENV = "production"
 
 # Plugin configuration
 # Netlify Next.js plugin - automatically handles Next.js deployment
+# The plugin will automatically detect Next.js app based on base directory
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-  
-  [plugins.inputs]
-    # Base directory for Next.js app within monorepo
-    nextAppDir = "apps/web"
 
