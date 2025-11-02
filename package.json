@@ -1,0 +1,30 @@
+{
+  "name": "catchlotto-next",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CatchLotto Next.js monorepo with Turborepo",
+  "scripts": {
+    "dev": "pnpm -r --filter '{apps/*}' --parallel dev",
+    "dev:web": "pnpm --filter ./apps/web dev",
+    "dev:admin": "pnpm --filter ./apps/admin dev",
+    "dev:partner": "pnpm --filter ./apps/partner dev",
+    "build": "pnpm -r --filter '{apps/*}' --filter '{packages/*}' build",
+    "build:web": "pnpm --filter '@catchlotto/web' build",
+    "build:admin": "pnpm --filter '@catchlotto/admin' build",
+    "build:partner": "pnpm --filter '@catchlotto/partner' build",
+    "start": "pnpm -r --filter '{apps/*}' --parallel start",
+    "start:web": "pnpm --filter ./apps/web start",
+    "start:admin": "pnpm --filter ./apps/admin start",
+    "start:partner": "pnpm --filter ./apps/partner start",
+    "lint": "pnpm -r --filter '{apps/*}' --filter '{packages/*}' lint",
+    "clean": "pnpm -r --filter '{apps/*}' --filter '{packages/*}' clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

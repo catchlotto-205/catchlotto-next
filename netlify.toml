@@ -1,0 +1,49 @@
+# Netlify configuration for CatchLotto monorepo
+# Main web app deployment with preview deployments
+
+[build]
+  # Base directory - root of monorepo
+  base = "."
+  # Build command - install dependencies and build web app
+  command = "pnpm install && pnpm build:web"
+  # Publish directory (Next.js plugin will handle this automatically)
+  publish = "apps/web/.next"
+
+# Environment variables
+[build.environment]
+  NODE_VERSION = "22"
+  PNPM_VERSION = "8.15.0"
+  # Next.js environment
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Context-specific settings
+# Production deployment
+[context.production]
+  command = "pnpm install && pnpm build:web"
+  publish = "apps/web/.next"
+  [context.production.environment]
+    NODE_ENV = "production"
+
+# Preview deployments (for PRs and branches)
+# These will automatically create preview deployments for pull requests
+[context.branch-deploy]
+  command = "pnpm install && pnpm build:web"
+  publish = "apps/web/.next"
+  [context.branch-deploy.environment]
+    NODE_ENV = "production"
+
+[context.deploy-preview]
+  command = "pnpm install && pnpm build:web"
+  publish = "apps/web/.next"
+  [context.deploy-preview.environment]
+    NODE_ENV = "production"
+
+# Plugin configuration
+# Netlify Next.js plugin - automatically handles Next.js deployment
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+  
+  [plugins.inputs]
+    # Base directory for Next.js app within monorepo
+    nextAppDir = "apps/web"
+
